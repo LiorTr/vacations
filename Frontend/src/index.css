@@ -1,0 +1,83 @@
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    text-align: center;
+    background-color: #121212;
+    /* Dark background for the entire page */
+    color: #e0e0e0;
+    /* Light text color for readability */
+}
+
+a {
+    color: #00BFFF;
+    /* Electric Blue */
+    text-decoration: none;
+    /* Optional: remove underline from links */
+}
+
+a:hover {
+    color: #9b77e6;
+    /* Change link color on hover */
+}
+
+form {
+    width: 280px;
+    /* Reduced width */
+    margin: 20px auto;
+    /* Reduced margin for spacing */
+    padding: 10px;
+    /* Reduced padding for a smaller form */
+    border-radius: 8px;
+    background: #1f1f1f;
+    border: 1px solid #333333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    /* Reduced shadow */
+    text-align: left;
+    box-sizing: border-box;
+    /* Optional: Set a specific height if needed */
+}
+
+form>input,
+form>button {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    /* Reduced spacing between elements */
+    padding: 6px;
+    /* Reduced padding inside inputs and buttons */
+    border-radius: 4px;
+    border: 1px solid #333333;
+    background: #222222;
+    color: #e0e0e0;
+    font-size: 12px;
+    /* Reduced font size for a smaller form */
+    height: 30px;
+    /* Set a specific height for inputs and buttons */
+}
+
+/* Adjust focus styles */
+form>input:focus,
+form>button:focus {
+    outline: none;
+    border: 1px solid #bb86fc;
+    background: #222222;
+}
+
+form>button {
+    background: #bb86fc;
+    border: none;
+    cursor: pointer;
+}
+
+form>button:hover {
+    background: #9b77e6;
+}
+
+
+
+form>input:focus::placeholder {
+    color: #a0a0a0;
+}
