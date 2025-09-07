@@ -2,23 +2,34 @@ import jwt, { SignOptions } from "jsonwebtoken";
 import crypto from "crypto";
 import { IUserModel } from "../3-models/user-model";
 import { Role } from "../3-models/enums";
+import dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
 
 class Cyber {
 
-    // Secret key: 
-    private secretKey = "TheBestVacationSiteInSchool!!";
+    private secretKey: string;
+    private hashingSalt: string;
 
-    private hashingSalt = "TheBestWayToHaveASafePassword!!!";
+    constructor() {
+        if (!process.env.JWT_SECRET_KEY || !process.env.PASSWORD_SALT) {
+            throw new Error("Missing JWT_SECRET_KEY or PASSWORD_SALT in environment variables.");
+        }
 
+        this.secretKey = process.env.JWT_SECRET_KEY;
+        this.hashingSalt = process.env.PASSWORD_SALT;
+    }
+
+    // Hash with salt:
     public hash(plainText: string): string {
-        // Hash with salt: 
-        return crypto.createHmac("sha512", this.hashingSalt).update(plainText).digest("hex"); // Returns 128 chars string.
+        return crypto.createHmac("sha512", this.hashingSalt).update(plainText).digest("hex");
     }
 
     // Generate new JWT token:
     public generateNewToken(user: IUserModel): string {
         const payload = {
-            id: user._id,
+            id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -32,29 +43,21 @@ class Cyber {
         return token;
     }
 
-    // Is token valid: 
+    // Is token valid:
     public isTokenValid(token: string): boolean {
         try {
-            // If no token: 
             if (!token) return false;
-
-            // Verify token: 
             jwt.verify(token, this.secretKey);
-
-            // Token valid: 
             return true;
-        } catch (err: any) { // Token not valid
+        } catch (err: any) {
             return false;
         }
     }
 
-    // Is user admin: 
+    // Is user admin:
     public isAdmin(token: string): boolean {
         try {
-            // Extract payload from token: 
             const payload = jwt.decode(token) as { roleId: Role };
-
-            // Return true if user is admin, or false if not:
             return payload.roleId === Role.Admin;
         } catch (err: any) {
             return false;
